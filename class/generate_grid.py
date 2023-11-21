@@ -10,22 +10,40 @@ EXCLUDED_USERS = ["profvjreddi", "mpstewart1", "uchendui", "happyappledog"]
 
 def get_pull_requests_with_label(owner, repo, label, token):
     prs_with_label = []
-    url = f"https://api.github.com/repos/{owner}/{repo}/pulls?state=all"
-    headers = {"Authorization": f"token {token}"}
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        pull_requests = response.json()
-        for pr in pull_requests:
-            if label in [lbl["name"] for lbl in pr.get("labels", [])]:
-                prs_with_label.append(pr)
+    page = 1
+    while True:
+        url = f"https://api.github.com/repos/{owner}/{repo}/pulls?state=all&page={page}"
+        headers = {"Authorization": f"token {token}"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            pull_requests = response.json()
+            if not pull_requests:
+                break
+            for pr in pull_requests:
+                if label in [lbl["name"] for lbl in pr.get("labels", [])]:
+                    prs_with_label.append(pr)
+            page += 1
+        else:
+            break
     return prs_with_label
 
 
 def get_comments_for_pull_request(owner, repo, pull_number, token):
-    url = f"https://api.github.com/repos/{owner}/{repo}/pulls/{pull_number}/comments?state=all"
-    headers = {"Authorization": f"token {token}"}
-    response = requests.get(url, headers=headers)
-    return response.json() if response.status_code == 200 else []
+    comments = []
+    page = 1
+    while True:
+        url = f"https://api.github.com/repos/{owner}/{repo}/pulls/{pull_number}/comments?page={page}"
+        headers = {"Authorization": f"token {token}"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            page_comments = response.json()
+            if not page_comments:
+                break
+            comments.extend(page_comments)
+            page += 1
+        else:
+            break
+    return comments
 
 
 def main(_):
