@@ -1,7 +1,6 @@
 name: Formatting .bib files
 on:
   push:
-  pull_request:
 
 jobs:
   lint-bib-files:
@@ -12,15 +11,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Installing GitHub CLI
+    - name: Setting up environment
       run: |
+        echo "Updating and installing necessary packages..."
         sudo apt -y update && sudo apt -y upgrade
         sudo apt -y install software-properties-common
         sudo apt install -y gh jq nodejs npm
+        echo "Installation complete."
 
     - name: Installing bibtex-tidy
       run: |
+        echo "Installing bibtex-tidy..."
         sudo npm install -g bibtex-tidy
+        echo "bibtex-tidy installed successfully."
 
     - name: Linting .bib files job has been triggered
       run: |
@@ -28,12 +31,43 @@ jobs:
 
     - name: Running bibtex-tidy on modified .bib files
       run: |
+        echo "Finding modified .bib files in the last commit..."
         files=$(git diff --name-only HEAD^ HEAD | grep '\.bib$')
+        if [ -z "$files" ]; then
+            echo "No .bib files modified in this commit."
+            exit 0
+        fi
         for file in $files; do
+            echo "Running bibtex-tidy on $file..."
             bibtex-tidy --omit=abstract,file,shorttitle,annote,keywords,issn,doi --curly --numeric --months --tab --align=13 --blank-lines --sort=key --duplicates=key --merge=combine --sort-fields --strip-comments --trailing-commas --remove-empty-fields $file
             ret=$?
             if [ $ret -ne 0 ]; then
               echo "Linting failed on $file. Please correct any errors and run the job again."
               exit 1
+            else
+              echo "$file linted successfully."
             fi
         done
+        echo "All modified .bib files have been linted successfully."
+
+    - name: Committing and pushing changes
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        
+        # incase there are changes while running the job
+        git stash
+        
+        # Fetch the latest state of whichever branch the workflow is running on and try to merge
+        git fetch origin ${{ github.ref }}
+        git merge origin/${{ github.ref }}
+        
+        # We have to apply our stashed changes
+        git stash apply
+        
+        git add -u
+        git diff-index --quiet HEAD || git commit -m "Format .bib files"
+        git push
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
