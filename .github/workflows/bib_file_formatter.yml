@@ -1,0 +1,39 @@
+name: Formatting .bib files
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-bib-files:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Installing GitHub CLI
+      run: |
+        sudo apt -y update && sudo apt -y upgrade
+        sudo apt -y install software-properties-common
+        sudo apt install -y gh jq nodejs npm
+
+    - name: Installing bibtex-tidy
+      run: |
+        sudo npm install -g bibtex-tidy
+
+    - name: Linting .bib files job has been triggered
+      run: |
+        echo "The job was automatically triggered by a ${{ github.event_name }} event."
+
+    - name: Running bibtex-tidy on modified .bib files
+      run: |
+        files=$(git diff --name-only HEAD^ HEAD | grep '\.bib$')
+        for file in $files; do
+            bibtex-tidy --omit=abstract,file,shorttitle,annote,keywords,issn,doi --curly --numeric --months --tab --align=13 --blank-lines --sort=key --duplicates=key --merge=combine --sort-fields --strip-comments --trailing-commas --remove-empty-fields $file
+            ret=$?
+            if [ $ret -ne 0 ]; then
+              echo "Linting failed on $file. Please correct any errors and run the job again."
+              exit 1
+            fi
+        done
