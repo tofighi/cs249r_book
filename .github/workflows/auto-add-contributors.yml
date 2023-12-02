@@ -41,23 +41,17 @@ jobs:
       run: |
         echo "Using all-contributors CLI to update files"
         
-        # Fetch the latest state of the current branch from the remote
-        git fetch origin $GITHUB_REF_NAME
-        git merge origin/$GITHUB_REF_NAME
-        
-        # Stash any changes made to the README.md and contributors.qmd files
-        git stash
-        
-        # Generate contributors list
-        npm install -g all-contributors-cli
-        npx all-contributors generate
+        npm i -D all-contributors-cli
         
         # Configure Git
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         
-        # Pop the stashed changes
-        git stash pop
+        # Fetch the latest state of the current branch from the remote
+        git fetch origin $GITHUB_REF_NAME
+        git merge origin/$GITHUB_REF_NAME
+        
+        npx all-contributors generate
         
         # Add updates
         git add -u
