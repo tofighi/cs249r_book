@@ -3,6 +3,7 @@ on:
   push:
     branches:
     - main
+    - contrib_test
 jobs:
   update-contributors:
     runs-on: ubuntu-latest
