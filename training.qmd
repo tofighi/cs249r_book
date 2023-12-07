@@ -743,8 +743,6 @@ Here are the summarizing pros and cons of these various standard activation func
 | Tanh | Smoother gradient than sigmoid <br> Zero-centered output [-1, 1] | Still suffers vanishing gradient issue |
 | ReLU | Computationally efficient <br> Introduces sparsity <br> Avoids vanishing gradients | "Dying ReLU" units <br> Not bounded |
 
-I have removed all the dash symbols from the table formatting to clean it up. Let me know if you need any other changes to the table or have additional pros/cons to cover for the various activation functions!
-
 ## System Bottlenecks
 
 As introduced earlier, neural networks are comprised of linear operations (matrix multiplications) interleaved with element-wise nonlinear activation functions. The most computationally expensive portion of neural networks is the linear transformations, specifically the matrix multiplications between each layer. These linear layers map the activations from the previous layer to a higher dimensional space that serves as inputs to the next layer's activation function.
