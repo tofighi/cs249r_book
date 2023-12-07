@@ -823,9 +823,9 @@ Specifically, let's look at the arithmetic intensity of matrix multiplication du
 
 As we increase the batch size $B$, the number of arithmetic operations grows much faster than the memory transfers. For example, with a batch size of 1, we need $N \times M$ operations and $N + M$ transfers, giving an arithmetic intensity ratio of around $\frac{N \times M}{N+M}$. But with a large batch size of 128, the intensity ratio becomes $\frac{128 \times N \times M}{N \times M + M \times 128} \approx 128$. Using a larger batch size shifts the overall computation from being more memory-bounded to being more compute-bounded. In practice, AI training uses large batch sizes and is generally limited by peak arithmetic computational performance, i.e: Application 3 in @fig-roofline.
 
-Therefore, batched matrix multiplication is far more computationally intensive than memory access bound. This has implications on hardware design as well as software optimizations, which we will cover next. The key insight is that by tuning the batch size, we can significantly alter the computational profile and bottlenecks posed by neural network training and inference.
-
 ![AI training is typically compute bound due to the high arithmetic intensity of matrix-multiplication when batch size is large.](images/aitrainingroof.png){#fig-roofline}
+
+Therefore, batched matrix multiplication is far more computationally intensive than memory access bound. This has implications on hardware design as well as software optimizations, which we will cover next. The key insight is that by tuning the batch size, we can significantly alter the computational profile and bottlenecks posed by neural network training and inference.
 
 #### Hardware Characteristics
 
