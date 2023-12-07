@@ -250,7 +250,7 @@ Double check your work by making sure that the shapes are correct!
 * All gradients with respect to the weights should have the same shape as the weight matrices themselves
 :::
 
-The entire backpropagation process can be complex, especially for networks that are very deep. Fortunately, machine learning frameworks like PyTorch support automatic differentiation, which performs backpropagation for us. In these machine learning frameworks we simply need to specify the forward pass, and the derivatives will be automatically computed for us. Nevertheless, it is beneficial to understand the theoretical process that is happening under the hood in these machine-learning frameworks.
+The entire backpropagation process can be complex, especially for networks that are very deep. Fortunately, machine learning frameworks like PyTorch support automatic differentiation, which performs backpropagation for us. In these machine learning frameworks we simply need to specify the forward pass, and the derivatives will be automatically computed for us. Nevertheless, it is beneficial to understand the theoretical process that is happening under the hood in these machine-learning frameworks. The chapter on [ML Frameworks](./frameworks.qmd) covers these in detail.
 
 :::{.callout-note}
 As seen above, intermediate activations $A_i$ are re-used in backpropagation. To improve performance, these activations are cached from the forward pass to avoid recomputing them. However, this means that activations must be kept in memory between the forward and backward passes, leading to higher memory usage. If the network and batchsize is large, this may lead to memory issues. Similarly, the derivatives with respect to each layer's outputs are cached to avoid recomputation.
