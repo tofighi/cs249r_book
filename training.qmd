@@ -693,7 +693,9 @@ Ideally, activation functions possess certain desirable qualities:
 
 Additionally, properties like computational efficiency, monotonicity, and smoothness make some activations better suited over others based on network architecture and problem complexity.
 
-We will briefly survey some of the most widely adopted activation functions along with their strengths and limitations. We also provide guidelines for selecting appropriate functions matched to ML system constraints and use case needs.
+We will briefly survey some of the most widely adopted activation functions, such as those shown in @fig-activations, along with their strengths and limitations. We also provide guidelines for selecting appropriate functions matched to ML system constraints and use case needs.
+
+![Common activation functions](https://1394217531-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-LvBP1svpACTB1R1x_U4%2F-LvNWUoWieQqaGmU_gl9%2F-LvO3qs2RImYjpBE8vln%2Factivation-functions3.jpg?alt=media&token=f96a3007-5888-43c3-a256-2dafadd5df7c){#fig-activations}
 
 ### Sigmoid
 
@@ -730,8 +732,6 @@ The Rectified Linear Unit (ReLU) introduces a simple thresholding behavior with 
 $$ ReLU(x) = max(0, x) $$
 
 It leaves all positive inputs unchanged while clipping all negative values to 0. This sparse activation and cheap computation make ReLU widely favored over sigmoid/tanh.
-
-![Common activation functions](https://1394217531-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-LvBP1svpACTB1R1x_U4%2F-LvNWUoWieQqaGmU_gl9%2F-LvO3qs2RImYjpBE8vln%2Factivation-functions3.jpg?alt=media&token=f96a3007-5888-43c3-a256-2dafadd5df7c){width=70%}
 
 ### Pros and Cons
 
