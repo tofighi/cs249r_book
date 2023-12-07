@@ -707,13 +707,14 @@ The exponentiation transform allows the function to smoothly transition from nea
 
 Pros:
 
-Smooth gradient always available for backprop
-Output bounded preventing "exploding"
-Simple formula
+* Smooth gradient always available for backprop
+* Output bounded preventing "exploding"
+* Simple formula
+
 Cons:
 
-Tendency to saturate at extremes killing gradients ("vanishing")
-Not zero-centered - outputs not symmetrically distributed
+* Tendency to saturate at extremes killing gradients ("vanishing")
+* Not zero-centered - outputs not symmetrically distributed
 
 ### Tanh
 
@@ -733,15 +734,38 @@ $$ ReLU(x) = max(0, x) $$
 
 It leaves all positive inputs unchanged while clipping all negative values to 0. This sparse activation and cheap computation make ReLU widely favored over sigmoid/tanh.
 
+### Linear
+
+The linear activation function (or identity function) simply outputs the input directly without applying any transformation. So if the input is $x$, the output is simply $x$.
+
+Pros:
+
+* Simplicity - The linear activation function is the simplest activation possible. It adds no additional computations or parameters.
+* Avoiding vanishing gradient - Since the derivative of the linear activation function is a constant (equal to 1), it does not suffer from the vanishing gradient problem that can affect deeper neural networks.
+* Wider range - Linear activations allow networks to predict a wider, unbounded range of numerical output values. Some other activation functions constrain outputs to a narrow fixed range.
+
+Cons: 
+
+* Lack of non-linearity - Linear activations on their own do not allow models to learn non-linear relationships, limiting their capabilities. Most real-world data requires some non-linear transformations.
+* Prone to exploding gradients - Without bounds on the outputs, linear networks can easily reach extremely large parameter values, causing gradient values to explode during training. This makes optimization more difficult.
+
+So in summary, linear activations are simple but also limited. They are usually combined with at least one nonlinear hidden layer to create universal approximators capable of modeling complex functions. The choice depends on the specific problem and data.
+
 ### Pros and Cons
 
-Here are the summarizing pros and cons of these various standard activation functions:
+Here is a summary of the various activation functions, along with some emerging activation functions.
 
-| Activation Function | Pros | Cons |  
-|:-|:-|:-|
-| Sigmoid | Smooth gradient for backprop <br> Output bounded between 0 and 1 | Saturation kills gradients <br> Not zero-centered |
-| Tanh | Smoother gradient than sigmoid <br> Zero-centered output [-1, 1] | Still suffers vanishing gradient issue |
-| ReLU | Computationally efficient <br> Introduces sparsity <br> Avoids vanishing gradients | "Dying ReLU" units <br> Not bounded |
+| Activation Function | Nonlinear? | Range | Advantages | Disadvantages |
+|-|-|-|-|-|
+| Linear | No | (-∞, ∞) | Simple, avoids vanishing gradients, wide output range | No nonlinearity, prone to exploding gradients |    
+| Sigmoid | Yes | (0, 1) | Smooth gradients, logical outputs | Saturates and kills gradients for large inputs |
+| Tanh | Yes | (-1, 1) | Centered at 0, smooth gradients | Saturates and kills gradients towards extremes |  
+| ReLU | Yes | [0, ∞) | Computationally efficient, avoids vanishing gradients | Dead neurons for negative inputs |
+| Leaky ReLU | Yes | (-∞, ∞) | Fixes dying neurons issue of ReLU | Extra hyperparameter (leak) to tune |
+| ELU | Yes | (-∞, ∞) | Fixes dying neurons, smooth everywhere | More expensive computation |
+| Swish | Yes | (-∞, ∞) | Self-gating smooth function | More complex |
+
+As you can see, the linear activation function stands out for its lack of nonlinearity. While simple, this limits its modeling capacity compared to the other standard nonlinear activations.
 
 ## System Bottlenecks
 
