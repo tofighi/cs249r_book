@@ -18,7 +18,7 @@ When machine learning models are deployed on systems, especially on resource-con
 
 * Explore hardware-aware optimization approaches to match models to target device capabilities
 
-* Discover software tools like frameworks and model conversion platforms that enable deployment of optimized models
+* Discover software tools like frameworks and model conversion platforms that enable the deployment of optimized models
 
 * Develop holistic thinking to balance tradeoffs in model complexity, accuracy, latency, power etc. based on application requirements
 
