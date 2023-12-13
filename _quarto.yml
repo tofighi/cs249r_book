@@ -1,6 +1,6 @@
 project:
-  type: book
-  output-dir: _book
+  type: website
+  output-dir: docs
   preview:
     browser: true
     navigate: true
@@ -155,3 +155,6 @@ format:
 
 editor:
   render-on-save: true
+
+execute:
+  freeze: auto
