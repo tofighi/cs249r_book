@@ -77,7 +77,7 @@ def main(_):
   headers = {"Authorization": f"token {token}"}
   data = []
   next_page = (
-      f"https://api.github.com/repos/{OWNER}/{REPO}/commits?sha={BRANCH}&per_page=100"
+      f"https://api.github.com/repos/{OWNER}/{REPO}/commits?sha={BRANCH}&per_page=500"
   )
   last_page = None
   while next_page != last_page:
@@ -221,7 +221,7 @@ def main(_):
   final_result = dict(
       projectName=REPO,
       projectOwner=OWNER,
-      files=["contributors.qmd", "README.md"],
+      files=["contents/contributors.qmd", "README.md"],
       contributors=[
           dict(
               login=row.username,
