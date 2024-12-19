@@ -2,7 +2,7 @@
 
 Welcome to {{< var title.long >}}. 
 
-Ghassem Tofighi
+Ghassem Tofighi 1
 
 Our aim is to make this open-source book a collaborative effort that brings together insights from students, professionals, and the broader community of applied machine learning practitioners. We want to create a one-stop guide that dives deep into the nuts and bolts of AI systems and their many uses.
 
